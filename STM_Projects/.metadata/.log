@@ -48,3 +48,18 @@ java.lang.Exception: arm-none-eabi-gdb: error while loading shared libraries: li
 	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1054)
 	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1257)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SESSION 2026-07-15 13:55:41.723 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-07-15 13:55:45.656
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-07-15 13:55:45.656
+!MESSAGE Log4j2 initialized with config file /home/akash/workspace/GitHub/espts_testing/STM_Projects/.metadata/.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-07-15 13:55:49.273
+!MESSAGE Started RMI Server, listening on port 41337
