@@ -58,7 +58,57 @@ static void MX_SPI2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void transfer_demo() {
+	  uCAN_MSG txMsg;
+	  txMsg.frame.idType = dSTANDARD_CAN_MSG_ID_2_0B;
+	  txMsg.frame.id     = 0x123;
+	  txMsg.frame.dlc    = 8;
+	  txMsg.frame.data0 = 0x11;
+	  txMsg.frame.data1 = 0x22;
+	  txMsg.frame.data2 = 0x33;
+	  txMsg.frame.data3 = 0x44;
+	  txMsg.frame.data4 = 0x55;
+	  txMsg.frame.data5 = 0x66;
+	  txMsg.frame.data6 = 0x77;
+	  txMsg.frame.data7 = 0x88;
+	  /* USER CODE BEGIN WHILE */
+	  while (1)
+	  {
+	    /* USER CODE END WHILE */
+		  if (CANSPI_Transmit(&txMsg))
+		  {
+		      HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+		      printf("Sent data\r\n");
+		  }
+		  else {
+			  printf("Error sending data!\r\n");
+		  }
 
+		  HAL_Delay(1000);
+	    /* USER CODE BEGIN 3 */
+	  }
+}
+
+void receive_demo() {
+	uCAN_MSG rxMsg;
+	while (1)
+	{
+	    if (CANSPI_Receive(&rxMsg))
+	    {
+	    	printf("ID: 0x%03lX\r\n", rxMsg.frame.id);
+	    	printf("DLC: %d\r\n", rxMsg.frame.dlc);
+
+	    	uint8_t *data = &rxMsg.frame.data0;
+	    	for (int i = 0; i < rxMsg.frame.dlc; i++)
+	    	{
+	    	    printf("%02X ", data[i]);
+	    	}
+	    	printf("\r\n");
+
+	        HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	    }
+	}
+}
 /* USER CODE END 0 */
 
 /**
@@ -104,36 +154,8 @@ int main(void)
   else {
 	  printf("Initialized CAN SPI!\r\n");
   }
-  /* Infinite loop */
 
-  uCAN_MSG txMsg;
-  txMsg.frame.idType = dSTANDARD_CAN_MSG_ID_2_0B;
-  txMsg.frame.id     = 0x123;
-  txMsg.frame.dlc    = 8;
-  txMsg.frame.data0 = 0x11;
-  txMsg.frame.data1 = 0x22;
-  txMsg.frame.data2 = 0x33;
-  txMsg.frame.data3 = 0x44;
-  txMsg.frame.data4 = 0x55;
-  txMsg.frame.data5 = 0x66;
-  txMsg.frame.data6 = 0x77;
-  txMsg.frame.data7 = 0x88;
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
-	  if (CANSPI_Transmit(&txMsg))
-	  {
-	      HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-	      printf("Sent data\r\n");
-	  }
-	  else {
-		  printf("Error sending data!\r\n");
-	  }
-
-	  HAL_Delay(1000);
-    /* USER CODE BEGIN 3 */
-  }
+  receive_demo();
   /* USER CODE END 3 */
 }
 

@@ -206,14 +206,25 @@ uint8_t CANSPI_Receive(uCAN_MSG *tempCanMsg)
   if (rxStatus.rxBuffer != 0)
   {
     /* finding buffer which has a message */
-    if ((rxStatus.rxBuffer == MSG_IN_RXB0)|(rxStatus.rxBuffer == MSG_IN_BOTH_BUFFERS))
-    {
-      MCP2515_ReadRxSequence(MCP2515_READ_RXB0SIDH, rxReg.rx_reg_array, sizeof(rxReg.rx_reg_array));
-    }
-    else if (rxStatus.rxBuffer == MSG_IN_RXB1)
-    {
-      MCP2515_ReadRxSequence(MCP2515_READ_RXB1SIDH, rxReg.rx_reg_array, sizeof(rxReg.rx_reg_array));
-    }
+	  if ((rxStatus.rxBuffer == MSG_IN_RXB0) ||
+	      (rxStatus.rxBuffer == MSG_IN_BOTH_BUFFERS))
+	  {
+	      MCP2515_ReadRxSequence(MCP2515_READ_RXB0SIDH,
+	                             rxReg.rx_reg_array,
+	                             sizeof(rxReg.rx_reg_array));
+
+	      /* Clear RX0 interrupt flag */
+	      MCP2515_BitModify(MCP2515_CANINTF, 0x01, 0x00);
+	  }
+	  else if (rxStatus.rxBuffer == MSG_IN_RXB1)
+	  {
+	      MCP2515_ReadRxSequence(MCP2515_READ_RXB1SIDH,
+	                             rxReg.rx_reg_array,
+	                             sizeof(rxReg.rx_reg_array));
+
+	      /* Clear RX1 interrupt flag */
+	      MCP2515_BitModify(MCP2515_CANINTF, 0x02, 0x00);
+	  }
 
     /* if the message is extended CAN type */
     if (rxStatus.msgType == dEXTENDED_CAN_MSG_ID_2_0B)
