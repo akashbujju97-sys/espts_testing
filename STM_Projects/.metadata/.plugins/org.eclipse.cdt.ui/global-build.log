@@ -1,13 +1,12 @@
-16:43:41 **** Incremental Build of configuration Debug for project MCP2515_Transfer ****
+17:06:09 **** Incremental Build of configuration Debug for project MCP2515_Transfer ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "MCP2515_Transfer.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/akash/workspace/GitHub/espts_testing/STM_Projects/MCP2515_Transfer/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MCP2515_Transfer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+arm-none-eabi-gcc -o "MCP2515_Transfer.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/akash/workspace/GitHub/espts_testing/STM_Projects/MCP2515_Transfer/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MCP2515_Transfer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: MCP2515_Transfer.elf
  
 arm-none-eabi-size  MCP2515_Transfer.elf 
 arm-none-eabi-objdump -h -S MCP2515_Transfer.elf  > "MCP2515_Transfer.list"
    text	   data	    bss	    dec	    hex	filename
-  18832	    104	   2064	  21000	   5208	MCP2515_Transfer.elf
+  29132	    468	   2068	  31668	   7bb4	MCP2515_Transfer.elf
 Finished building: default.size.stdout
  
 Finished building: MCP2515_Transfer.list

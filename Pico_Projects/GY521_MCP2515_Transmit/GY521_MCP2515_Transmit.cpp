@@ -72,12 +72,16 @@ int main()
         //printf("%d, gx: %.2f, gy: %.2f, gz: %.2f, %s\n", index++, gx, gy, gz, (status ? "True": "False"));
 
         pack(tx.data, 1, gx, gy, gz, status);
-        if (mcp->sendMessage(&tx) == MCP2515::ERROR_OK)
+        auto err = mcp->sendMessage(&tx);
+        if (err == MCP2515::ERROR_OK)
         {
             printf("TX: ");
             for (int i = 0; i < 8; i++)
                 printf("%02X ", tx.data[i]);
             printf("\n");
+        }
+        else {
+            printf("Error sending %d\n", err);
         }
 
         sleep_ms(1000);

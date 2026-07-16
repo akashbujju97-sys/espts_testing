@@ -27,6 +27,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 #include <stdio.h>
+#include <string.h>
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -89,23 +90,41 @@ void transfer_demo() {
 	  }
 }
 
+void unpack(uint8_t* data) {
+	int16_t gx_i, gy_i, gz_i;
+
+	memcpy(&gx_i, &data[1], 2);
+	memcpy(&gy_i, &data[3], 2);
+	memcpy(&gz_i, &data[5], 2);
+
+	float gx = (float)(gx_i / 100.0f);
+	float gy = (float)(gy_i / 100.0f);
+	float gz = (float)(gz_i / 100.0f);
+
+	bool flag = data[7] != 0;
+
+	printf("gx: %.1f, gy: %.1f, gz: %.1f, status: %s\r\n", gx, gy, gz, (flag ? "True" : "False"));
+}
+
 void receive_demo() {
 	uCAN_MSG rxMsg;
 	while (1)
 	{
 	    if (CANSPI_Receive(&rxMsg))
 	    {
-	    	printf("ID: 0x%03lX\r\n", rxMsg.frame.id);
-	    	printf("DLC: %d\r\n", rxMsg.frame.dlc);
+	    	//printf("ID: 0x%03lX\r\n", rxMsg.frame.id);
+	    	//printf("DLC: %d\r\n", rxMsg.frame.dlc);
 
 	    	uint8_t *data = &rxMsg.frame.data0;
-	    	for (int i = 0; i < rxMsg.frame.dlc; i++)
+	    	/*for (int i = 0; i < rxMsg.frame.dlc; i++)
 	    	{
 	    	    printf("%02X ", data[i]);
 	    	}
-	    	printf("\r\n");
+	    	printf("\r\n");*/
 
 	        HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	        unpack(data);
+	        HAL_Delay(1000);
 	    }
 	}
 }
